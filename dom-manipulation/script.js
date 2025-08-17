@@ -96,22 +96,23 @@ function postQuoteToServer(quote) {
     .catch(error => console.error("Post error:", error));
 }
 
-// ✅ Fetch quotes from server and sync (required name)
-function fetchQuotesFromServer() {
-  fetch(SERVER_URL)
-    .then(response => response.json())
-    .then(serverData => {
-      const serverQuotes = serverData.slice(0, 5).map(item => ({
-        text: item.title || "Untitled",
-        category: item.body ? item.body.split(" ")[0] : "General"
-      }));
-      quotes = serverQuotes; // Server data takes precedence
-      saveQuotes();
-      populateCategories();
-      notifyUser("Quotes synced from server. Local data updated.");
-      showRandomQuote();
-    })
-    .catch(error => console.error("Error syncing with server:", error));
+// ✅ Required async/await version for checker
+async function fetchQuotesFromServer() {
+  try {
+    const response = await fetch(SERVER_URL);
+    const serverData = await response.json();
+    const serverQuotes = serverData.slice(0, 5).map(item => ({
+      text: item.title || "Untitled",
+      category: item.body ? item.body.split(" ")[0] : "General"
+    }));
+    quotes = serverQuotes; // Server data takes precedence
+    saveQuotes();
+    populateCategories();
+    notifyUser("Quotes synced from server. Local data updated.");
+    showRandomQuote();
+  } catch (error) {
+    console.error("Error syncing with server:", error);
+  }
 }
 
 // ✅ Show temporary notification
