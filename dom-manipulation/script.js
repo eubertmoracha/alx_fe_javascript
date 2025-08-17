@@ -108,7 +108,7 @@ async function fetchQuotesFromServer() {
     quotes = serverQuotes; // Server data takes precedence
     saveQuotes();
     populateCategories();
-    notifyUser("Quotes synced from server. Local data updated.");
+    notifyUser("Quotes synced with server!");
     showRandomQuote();
   } catch (error) {
     console.error("Error syncing with server:", error);
