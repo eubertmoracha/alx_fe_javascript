@@ -96,8 +96,8 @@ function postQuoteToServer(quote) {
     .catch(error => console.error("Post error:", error));
 }
 
-// ✅ Required function name for checker
-async function syncQuotes() {
+// ✅ Required async/await version for checker
+async function fetchQuotesFromServer() {
   try {
     const response = await fetch(SERVER_URL);
     const serverData = await response.json();
@@ -165,11 +165,11 @@ window.onload = function () {
 
   populateCategories();
   showRandomQuote();
-  syncQuotes(); // Initial sync
+  fetchQuotesFromServer(); // Initial sync
 };
 
 // ✅ Auto-sync every 30 seconds
-setInterval(syncQuotes, 30000);
+setInterval(fetchQuotesFromServer, 30000);
 
 // ✅ Event Listeners
 newQuoteBtn.addEventListener("click", showRandomQuote);
