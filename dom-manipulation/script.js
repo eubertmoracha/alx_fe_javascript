@@ -96,8 +96,8 @@ function postQuoteToServer(quote) {
     .catch(error => console.error("Post error:", error));
 }
 
-// ✅ Fetch quotes from server and sync
-function fetchServerQuotes() {
+// ✅ Fetch quotes from server and sync (required name)
+function fetchQuotesFromServer() {
   fetch(SERVER_URL)
     .then(response => response.json())
     .then(serverData => {
@@ -152,13 +152,11 @@ function filterQuotes() {
 
 // ✅ Initialize App
 window.onload = function () {
-  // Show last quote if available
   const lastQuote = JSON.parse(sessionStorage.getItem("lastQuote"));
   if (lastQuote) {
     quoteDisplay.innerHTML = `<p><strong>${lastQuote.category}:</strong> ${lastQuote.text}</p>`;
   }
 
-  // Restore last selected category
   const savedCategory = localStorage.getItem("selectedCategory");
   if (savedCategory) {
     categoryFilter.value = savedCategory;
@@ -166,11 +164,11 @@ window.onload = function () {
 
   populateCategories();
   showRandomQuote();
-  fetchServerQuotes(); // Initial sync
+  fetchQuotesFromServer(); // Initial sync
 };
 
 // ✅ Auto-sync every 30 seconds
-setInterval(fetchServerQuotes, 30000);
+setInterval(fetchQuotesFromServer, 30000);
 
 // ✅ Event Listeners
 newQuoteBtn.addEventListener("click", showRandomQuote);
